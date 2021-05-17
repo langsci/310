@@ -1,0 +1,131 @@
+\newcommand*{\orcid}{}
+
+\makeatletter
+\let\theauthor\@author
+\makeatother
+
+\papernote{\scriptsize\normalfont
+    \theauthor.
+    \titleTemp. 
+    To appear in: 
+    Chad Howe and Pilar Chamorro and Timothy Gupton and Margaret Renwick.
+    Theory, Data, and Practice: Selected papers from the 49th Linguistic Symposium on Romance Language
+    Berlin: Language Science Press. [preliminary page numbering]
+}
+
+% Workaround for subscripts with capital letters
+\newcommand{\capsub}[1]{\ensuremath{_\text{#1}}}
+
+% Chapter 10: Table-like presentation within example environment
+% classical latin > {*}late latin > old french  earlier > later   gloss
+\newcommand{\montanoboxi}[7]{\parbox{2cm}{#1} > {#2}\parbox{2cm}{#3} > \parbox{1.5cm}{\textit{#4}} \parbox{1.2cm}{#5}\ > \parbox{1.2cm}{#6} \parbox{1.5cm}{#7}}
+% {*}latin > earlier OF [ipa] > early OF   gloss
+\newcommand{\montanoboxii}[6]{{#1}\parbox{1.9cm}{\textit{#2}} > \parbox{1.3cm}{\textit{#3}} \parbox{2cm}{#4} \parbox{2cm}{#5} \parbox{1.9cm}{#6}}
+
+% Chapter 5
+\newcommand{\redc}[1]{\textcolor{red}{#1}}
+\newcommand{\bluec}[1]{\textcolor{blue}{#1}}
+\newcommand{\ajout}[1]{\textcolor{blue}{#1}}
+\newcommand{\ajoutplus}[1]{\textcolor{cyan}{#1}}
+
+\newcommand{\hachure}[9]{
+% Parametres :
+% Coordonnees bas gauche (2 parametres) : (#1,#2)
+% Coordonnees haut droit (2 parametres) : (#3,#4)
+% Orientation : #5
+%   1 : diagonale de pente 1
+%  -1 : diagonale de pente -1
+%   0 : horizontal
+%   2 : vertical
+% Nombre de pas horizontaux : #6
+% Epaisseur du trait : #7
+% Couleur : #8 (ex. green)
+% AttÃƒÆ’Ã‚Â©nuation couleur : #9 (ex. 30)
+\pgfmathsetmacro{\N}{#6-1}
+\pgfmathsetmacro{\A}{#1}
+\pgfmathsetmacro{\B}{#2}
+\pgfmathsetmacro{\C}{#3}
+\pgfmathsetmacro{\D}{#4}
+\pgfmathsetmacro{\I}{(#3-#1)/#6}
+\pgfmathsetmacro{\J}{(#4-#2)/#6}
+\ifthenelse{\equal{#5}{1}}{
+  \foreach \n in {0,...,\N}
+    \foreach \m in {0,...,\N}
+      {
+        \pgfmathsetmacro{\X}{\A + ((0 + \n) * \I)}
+        \pgfmathsetmacro{\Y}{\B + ((0 + \m) * \J)}
+        \pgfmathsetmacro{\U}{\A + ((1 + \n) * \I)}
+        \pgfmathsetmacro{\V}{\B + ((1 + \m) * \J)}
+        \draw[#8!#9,#7] (\X, \Y)--(\U, \V);
+      } 
+  }{}
+\ifthenelse{\equal{#5}{-1}}{
+  \foreach \n in {0,...,\N}
+    \foreach \m in {0,...,\N}
+      {
+        \pgfmathsetmacro{\X}{\A + ((1 + \n) * \I)}
+        \pgfmathsetmacro{\Y}{\B + ((0 + \m) * \J)}
+        \pgfmathsetmacro{\U}{\A + ((0 + \n) * \I)}
+        \pgfmathsetmacro{\V}{\B + ((1 + \m) * \J)}
+        \draw[#8!#9,#7] (\X, \Y)--(\U, \V);
+      } 
+  }{}
+\ifthenelse{\equal{#5}{0}}{
+  \foreach \n in {0,...,\N}
+    \foreach \m in {0,...,\N}
+      {
+        \pgfmathsetmacro{\X}{\A + ((0 + \n) * \I)}
+        \pgfmathsetmacro{\Y}{\B + ((0 + \m) * \J)}
+        \pgfmathsetmacro{\U}{\A + ((1 + \n) * \I)}
+        \pgfmathsetmacro{\V}{\B + ((0 + \m) * \J)}
+        \draw[#8!#9,#7] (\X, \Y)--(\U, \V);
+      } 
+  }{}
+\ifthenelse{\equal{#5}{2}}{
+  \foreach \n in {0,...,\N}
+    \foreach \m in {0,...,\N}
+      {
+        \pgfmathsetmacro{\X}{\A + ((0 + \n) * \I)}
+        \pgfmathsetmacro{\Y}{\B + ((0 + \m) * \J)}
+        \pgfmathsetmacro{\U}{\A + ((0 + \n) * \I)}
+        \pgfmathsetmacro{\V}{\B + ((1 + \m) * \J)}
+        \draw[#8!#9,#7] (\X, \Y)--(\U, \V);
+      } 
+  }{}
+}
+
+%DÃ©finition d'un pattern de type hachure
+% \usetikzlibrary{patterns}
+% \makeatletter
+% \tikzset{hatch distance/.store in=\hatchdistance,hatch distance=5pt,hatch thickness/.store in=\hatchthickness,hatch thickness=5pt}
+
+% \pgfdeclarepatternformonly[\hatchdistance,\hatchthickness]{north east hatch}% name
+%     {\pgfqpoint{-\hatchthickness}{-\hatchthickness}}% below left
+%     {\pgfqpoint{\hatchdistance+\hatchthickness}{\hatchdistance+\hatchthickness}}% above right
+%     {\pgfpoint{\hatchdistance}{\hatchdistance}}%
+%     {
+%         \pgfsetcolor{\tikz@pattern@color}
+%         \pgfsetlinewidth{\hatchthickness}
+%         \pgfpathmoveto{\pgfqpoint{-\hatchthickness}{-\hatchthickness}}       
+%         \pgfpathlineto{\pgfqpoint{\hatchdistance+\hatchthickness}{\hatchdistance+\hatchthickness}}
+%         \pgfusepath{stroke}
+%     }
+% \pgfdeclarepatternformonly[\hatchdistance,\hatchthickness]{north west hatch}% name
+%     {\pgfqpoint{-\hatchthickness}{-\hatchthickness}}% below left
+%     {\pgfqpoint{\hatchdistance+\hatchthickness}{\hatchdistance+\hatchthickness}}% above right
+%     {\pgfpoint{\hatchdistance}{\hatchdistance}}%
+%     {
+%         \pgfsetcolor{\tikz@pattern@color}
+%         \pgfsetlinewidth{\hatchthickness}
+%         \pgfpathmoveto{\pgfqpoint{\hatchdistance+\hatchthickness}{-\hatchthickness}}
+%         \pgfpathlineto{\pgfqpoint{-\hatchthickness}{\hatchdistance+\hatchthickness}}
+%         \pgfusepath{stroke}
+%     }
+% \makeatother
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+% Chapter 7
+\newcommand\pef[1]{(\ref{#1})}
+
+\newcommand{\subscript}[1]{\textsubscript}
